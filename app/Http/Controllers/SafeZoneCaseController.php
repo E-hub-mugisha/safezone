@@ -15,11 +15,12 @@ class SafeZoneCaseController extends Controller
     // List all cases
     public function index()
     {
-        $cases = SafeZoneCase::with(['user', 'agent', 'medical', 'evidences'])->get();
+        $cases = SafeZoneCase::with(['reporter', 'agent', 'medical', 'evidences'])->get();
         $agents = User::where('role', 'agent')->get();
         $medicalStaff = User::where('role', 'medical')->get();
+        $users = User::all();
 
-        return view('safe_zone_cases.index', compact('cases', 'agents', 'medicalStaff'));
+        return view('cases.index', compact('cases', 'agents', 'medicalStaff', 'users'));
     }
 
     // Show form for creating a new case
@@ -110,5 +111,12 @@ class SafeZoneCaseController extends Controller
 
         $safeZoneCase->delete();
         return redirect()->back()->with('success', 'Case deleted successfully.');
+    }
+
+    // Show evidences for a case
+    public function showEvidence($id)
+    {
+        $case = SafeZoneCase::with('evidences')->findOrFail($id);
+        return view('cases.evidences', compact('case'));    
     }
 }

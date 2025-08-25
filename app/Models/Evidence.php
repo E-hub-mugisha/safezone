@@ -16,6 +16,6 @@ class Evidence extends Model
     ];
 
     public function case() {
-        return $this->belongsTo(SafeZoneCase::class);
+        return $this->belongsTo(SafeZoneCase::class, 'case_id');
     }
 }

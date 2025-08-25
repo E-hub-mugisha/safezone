@@ -6,10 +6,103 @@
 <div class="container">
     <h2 class="mb-4">GBV Case Management</h2>
 
-    <a href="{{ route('safe_zone_cases.create') }}" class="btn btn-success mb-3">Report New Case</a>
+    <!-- Button to trigger modal -->
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCaseModal">
+        Add New Case
+    </button>
+
+    <!-- Add Case Modal -->
+    <div class="modal fade" id="addCaseModal" tabindex="-1" aria-labelledby="addCaseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form action="{{ route('safe-zone-cases.store') }}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCaseModalLabel">Add New GBV Case</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <!-- Reporter -->
+                        <div class="mb-3">
+                            <label for="user_id" class="form-label">Reporter</label>
+                            <select name="user_id" id="user_id" class="form-select" required>
+                                <option value="">Select User</option>
+                                @foreach($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Assigned RIB Agent -->
+                        <div class="mb-3">
+                            <label for="agent_id" class="form-label">Assign RIB Agent</label>
+                            <select name="agent_id" id="agent_id" class="form-select">
+                                <option value="">Select Agent (Optional)</option>
+                                @foreach($agents as $agent)
+                                <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Assigned Medical Staff -->
+                        <div class="mb-3">
+                            <label for="medical_id" class="form-label">Assign Medical Staff</label>
+                            <select name="medical_id" id="medical_id" class="form-select">
+                                <option value="">Select Medical Staff (Optional)</option>
+                                @foreach($medicalStaff as $staff)
+                                <option value="{{ $staff->id }}">{{ $staff->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Case Type -->
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Case Type</label>
+                            <select name="type" id="type" class="form-select" required>
+                                <option value="">Select Type</option>
+                                <option value="physical">Physical</option>
+                                <option value="sexual">Sexual</option>
+                                <option value="psychological">Psychological</option>
+                            </select>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea name="description" id="description" class="form-control" rows="4" required></textarea>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location (Optional)</label>
+                            <input type="text" name="location" id="location" class="form-control">
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select name="status" id="status" class="form-select" required>
+                                <option value="pending">Pending</option>
+                                <option value="verified">Verified</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Case</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <table class="table table-bordered table-striped">
@@ -30,7 +123,7 @@
             @foreach($cases as $case)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $case->user->name }}</td>
+                <td>{{ $case->reporter->name }}</td>
                 <td>{{ ucfirst($case->type) }}</td>
                 <td>{{ $case->description }}</td>
                 <td>{{ $case->location ?? 'N/A' }}</td>
@@ -39,11 +132,11 @@
                 <td>{{ $case->medical->name ?? '-' }}</td>
                 <td>
                     <!-- Show -->
-                    <a href="{{ route('safe_zone_cases.show',$case->id) }}" class="btn btn-info btn-sm">Show</a>
-                    
+                    <a href="{{ route('safe-zone-cases.showEvidence',$case->id) }}" class="btn btn-info btn-sm">Evidence</a>
+
                     <!-- Verify Modal -->
                     <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#verifyModal{{ $case->id }}">Verify</button>
-                    
+
                     <!-- Assign Modal -->
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#assignModal{{ $case->id }}">Assign</button>
 
@@ -55,7 +148,7 @@
             <!-- Verify Modal -->
             <div class="modal fade" id="verifyModal{{ $case->id }}" tabindex="-1">
                 <div class="modal-dialog">
-                    <form action="{{ route('safe_zone_cases.update',$case->id) }}" method="POST">
+                    <form action="{{ route('safe-zone-cases.update',$case->id) }}" method="POST">
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="verify" value="1">
@@ -79,7 +172,7 @@
             <!-- Assign Modal -->
             <div class="modal fade" id="assignModal{{ $case->id }}" tabindex="-1">
                 <div class="modal-dialog">
-                    <form action="{{ route('safe_zone_cases.update',$case->id) }}" method="POST">
+                    <form action="{{ route('safe-zone-cases.update',$case->id) }}" method="POST">
                         @csrf
                         @method('PATCH')
                         <input type="hidden" name="assign" value="1">
@@ -94,7 +187,7 @@
                                     <select name="agent_id" class="form-select" required>
                                         <option value="">Select Agent</option>
                                         @foreach($agents as $agent)
-                                            <option value="{{ $agent->id }}" {{ $case->agent_id == $agent->id ? 'selected' : '' }}>{{ $agent->name }}</option>
+                                        <option value="{{ $agent->id }}" {{ $case->agent_id == $agent->id ? 'selected' : '' }}>{{ $agent->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -103,7 +196,7 @@
                                     <select name="medical_id" class="form-select" required>
                                         <option value="">Select Medical Staff</option>
                                         @foreach($medicalStaff as $staff)
-                                            <option value="{{ $staff->id }}" {{ $case->medical_id == $staff->id ? 'selected' : '' }}>{{ $staff->name }}</option>
+                                        <option value="{{ $staff->id }}" {{ $case->medical_id == $staff->id ? 'selected' : '' }}>{{ $staff->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -120,7 +213,7 @@
             <!-- Delete Modal -->
             <div class="modal fade" id="deleteModal{{ $case->id }}" tabindex="-1">
                 <div class="modal-dialog">
-                    <form action="{{ route('safe_zone_cases.destroy',$case->id) }}" method="POST">
+                    <form action="{{ route('safe-zone-cases.destroy',$case->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <div class="modal-content">

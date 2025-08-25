@@ -22,9 +22,21 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}"
+                        href="{{ route('users.index') }}">
+                        Users
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('safe_zone_cases.index') ? 'active' : '' }}"
-                        href="{{ route('safe_zone_cases.index') }}">
+                        href="{{ route('safe-zone-cases.index') }}">
                         Cases
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('evidences.index') ? 'active' : '' }}"
+                        href="{{ route('evidences.index') }}">
+                        Evidences
                     </a>
                 </li>
             </ul>
