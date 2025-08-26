@@ -23,17 +23,21 @@
                     </div>
 
                     <div class="modal-body">
-                        <!-- Reporter -->
+                        <!-- Survivor Name -->
                         <div class="mb-3">
-                            <label for="user_id" class="form-label">Reporter</label>
-                            <select name="user_id" id="user_id" class="form-select" required>
-                                <option value="">Select User</option>
-                                @foreach($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
-                                @endforeach
-                            </select>
+                            <label for="survivor_name" class="form-label">Survivor Name</label>
+                            <input type="text" name="survivor_name" id="survivor_name" class="form-control" required>
                         </div>
-
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" name="email" id="email" class="form-control" required>
+                        </div>
+                        <!-- Phone -->
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="text" name="phone" id="phone" class="form-control" required>
+                        </div>
                         <!-- Assigned RIB Agent -->
                         <div class="mb-3">
                             <label for="agent_id" class="form-label">Assign RIB Agent</label>
@@ -109,9 +113,11 @@
         <thead class="table-dark">
             <tr>
                 <th>#</th>
-                <th>Reporter</th>
+                <th>Case Number</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
                 <th>Type</th>
-                <th>Description</th>
                 <th>Location</th>
                 <th>Status</th>
                 <th>Agent</th>
@@ -123,9 +129,11 @@
             @foreach($cases as $case)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $case->reporter->name }}</td>
+                <td>{{ $case->case_number }}</td>
+                <td>{{ $case->survivor_name }}</td>
+                <td>{{ $case->email }}</td>
+                <td>{{ $case->phone }}</td>
                 <td>{{ ucfirst($case->type) }}</td>
-                <td>{{ $case->description }}</td>
                 <td>{{ $case->location ?? 'N/A' }}</td>
                 <td>{{ ucfirst($case->status) }}</td>
                 <td>{{ $case->agent->name ?? '-' }}</td>

@@ -5,10 +5,14 @@ use App\Http\Controllers\SafeZoneCaseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-Route::post('/cases', [SafeZoneCaseController::class, 'storeCase'])->name('user.safe_zone_cases.store');
+Route::post('/report/cases', [SafeZoneCaseController::class, 'storeCase'])->name('user.reportCases.store');
+Route::get('/track-case', [SafeZoneCaseController::class, 'trackCaseForm'])->name('case.track.form');
+Route::post('/track-case', [SafeZoneCaseController::class, 'trackCase'])->name('case.track');
+Route::post('/case/{id}/add-evidence', [SafeZoneCaseController::class, 'addEvidence'])->name('case.add.evidence');
+Route::get('/cases/{id}/download', [SafeZoneCaseController::class, 'downloadPDF'])->name('cases.download');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('safe_zone_cases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // reporter
             $table->foreignId('agent_id')->nullable()->constrained('users')->onDelete('set null'); // assigned RIB agent
             $table->foreignId('medical_id')->nullable()->constrained('users')->onDelete('set null'); // assigned medical staff
+            $table->string('case_number')->unique();
+            $table->string('survivor_name');
+            $table->string('phone')->nullable();
+            $table->string('email');
             $table->enum('type', ['physical', 'sexual', 'psychological']);
             $table->text('description');
             $table->string('location')->nullable();

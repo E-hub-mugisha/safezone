@@ -10,19 +10,18 @@ class SafeZoneCase extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'agent_id',
         'medical_id',
+        'case_number',
+        'survivor_name',
+        'phone',
+        'email',
         'type',
         'description',
         'location',
         'status',
     ];
 
-    public function reporter()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 
     public function agent()
     {

@@ -1,4 +1,7 @@
-<x-guest-layout>
+@extends('layouts.guest')
+@section('title', 'Login - SafeZone')
+
+@section('content')
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -44,4 +47,12 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+
+    @if (Route::has('register'))
+        <div class="mt-4 text-center">
+            <a href="{{ route('register') }}" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {{ __("Don't have an account? Register") }}
+            </a>
+        </div>
+    @endif
+@endsection
