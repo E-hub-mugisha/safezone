@@ -129,7 +129,7 @@
             @foreach($cases as $case)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $case->case_number }}</td>
+                <td><a href="{{ route('cases.show', $case->id) }}">{{ $case->case_number }}</a></td>
                 <td>{{ $case->survivor_name }}</td>
                 <td>{{ $case->email }}</td>
                 <td>{{ $case->phone }}</td>
@@ -150,6 +150,38 @@
 
                     <!-- Delete Modal -->
                     <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $case->id }}">Delete</button>
+
+                    <!-- Button -->
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#medicalReportModal-{{ $case->id }}">
+                        Add Medical Report
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="medicalReportModal-{{ $case->id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form method="POST" action="{{ route('medical-reports.store', $case->id) }}" enctype="multipart/form-data" class="modal-content">
+                                @csrf
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Medical Report for Case {{ $case->case_number }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Report Notes</label>
+                                        <textarea name="report" class="form-control" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Attach File (optional)</label>
+                                        <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Save Report</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                 </td>
             </tr>
 

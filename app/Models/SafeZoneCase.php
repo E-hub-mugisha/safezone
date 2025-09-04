@@ -37,4 +37,12 @@ class SafeZoneCase extends Model
     {
         return $this->hasMany(Evidence::class , 'case_id');
     }
+    public function reports()
+    {
+        return $this->hasMany(MedicalReport::class, 'case_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MedicalReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SafeZoneCaseController;
 use Illuminate\Support\Facades\Route;
@@ -29,9 +30,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/users/{user}', [ProfileController::class, 'destroyUser'])->name('users.destroy');
 
     Route::resource('safe-zone-cases', \App\Http\Controllers\SafeZoneCaseController::class);
+    Route::get('/safe-zone-cases/{id}', [SafeZoneCaseController::class, 'show'])
+    ->name('cases.show');
     Route::get('safe-zone-cases/{id}/evidences', [\App\Http\Controllers\SafeZoneCaseController::class, 'showEvidence'])->name('safe-zone-cases.showEvidence');
 
     Route::resource('evidences', \App\Http\Controllers\EvidenceController::class);
+
+
+    Route::post('/cases/{case}/medical-reports', [MedicalReportController::class, 'store'])
+        ->name('medical-reports.store');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

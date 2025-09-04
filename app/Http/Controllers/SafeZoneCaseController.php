@@ -9,6 +9,7 @@ use App\Models\Evidence;
 use App\Notifications\CaseStatusUpdated;
 use App\Notifications\EmergencyAlert;
 use App\Notifications\EvidenceAcceptedNotification;
+use App\Services\TrackingLogService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -63,6 +64,13 @@ class SafeZoneCaseController extends Controller
             }
         }
 
+        TrackingLogService::log(
+            $case->id,
+            auth()->id(),
+            'Case Created',
+            "Case {$case->case_number} created by " . auth()->user()->name
+        );
+
         // Notify all RIB agents
         $agents = User::where('role', 'agent')->get();
         foreach ($agents as $agent) {
@@ -73,10 +81,11 @@ class SafeZoneCaseController extends Controller
     }
 
     // Show single case
-    public function show(SafeZoneCase $safeZoneCase)
+    public function show($id)
     {
-        $safeZoneCase->load('user', 'agent', 'medical', 'evidences');
-        return view('safe_zone_cases.show', compact('safeZoneCase'));
+        $case = SafeZoneCase::findOrFail($id);
+        $case->load('user', 'agent', 'medical', 'evidences');
+        return view('cases.show', compact('case'));
     }
 
     // Update case (used for verification and assignment)
@@ -165,6 +174,12 @@ class SafeZoneCaseController extends Controller
             }
         }
 
+        TrackingLogService::log(
+            $case->id,
+            auth()->id(),
+            'Case Created',
+            "Case {$case->case_number} created by " . auth()->user()->name
+        );
         /**
          * SEND EMAIL NOTIFICATIONS
          */
@@ -229,6 +244,14 @@ class SafeZoneCaseController extends Controller
             }
         }
 
+        TrackingLogService::log(
+            $case->id,
+            auth()->id(),
+            'Evidence Added',
+            "File: {$file->getClientOriginalName()}"
+        );
+
+
         // 🔔 Notify Admin & RIB roles
         $adminsAndRibs = User::whereIn('role', ['admin', 'rib'])->get();
 
@@ -252,6 +275,13 @@ class SafeZoneCaseController extends Controller
         if ($user) {
             $user->notify(new EvidenceAcceptedNotification($evidence));
         }
+
+        TrackingLogService::log(
+            $case->id,
+            auth()->id(),
+            'Case Verified',
+            "Verified by RIB Agent " . auth()->user()->name
+        );
 
         return back()->with('success', 'Evidence approved and user notified.');
     }
