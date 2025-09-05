@@ -83,9 +83,11 @@ class SafeZoneCaseController extends Controller
     // Show single case
     public function show($id)
     {
-        $case = SafeZoneCase::findOrFail($id);
-        $case->load('user', 'agent', 'medical', 'evidences');
-        return view('cases.show', compact('case'));
+        $case = SafeZoneCase::with(['agent', 'medical', 'evidences', 'trackingLogs','user'])->findOrFail($id);
+        
+        $agents = User::where('role', 'agent')->get();
+        $medicalStaff = User::where('role', 'medical')->get();
+        return view('cases.show', compact('case', 'agents', 'medicalStaff'));
     }
 
     // Update case (used for verification and assignment)

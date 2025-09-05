@@ -15,53 +15,111 @@ class SafeZoneCaseTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::all();
-        $agents = $users->where('role', 'agent')->values();
-        $medicalStaff = $users->where('role', 'medical')->values();
-        $reporters = $users->where('role', 'user')->values();
+        // Get agents and medical staff IDs
+        $agents = User::where('role', 'agent')->pluck('id')->toArray();
+        $medicals = User::where('role', 'medical')->pluck('id')->toArray();
 
-        $realCases = [
+        // Example Rwanda survivor data
+        $cases = [
             [
-                'user' => $reporters[0],
+                'survivor_name' => 'Jean Bosco',
+                'phone' => '0788123456',
+                'email' => 'jean.bosco@example.rw',
                 'type' => 'physical',
-                'description' => 'The survivor reported being physically assaulted by a neighbor. Bruises were sustained on the arms and back. Immediate medical attention is required.',
-                'location' => 'Kigali, Kimironko',
+                'description' => 'Survivor was physically assaulted in Nyamirambo.',
+                'location' => 'Nyamirambo',
+                'status' => 'pending',
             ],
             [
-                'user' => $reporters[1],
-                'type' => 'psychological',
-                'description' => 'The survivor reported continuous verbal harassment and threats from a former partner causing severe anxiety and emotional distress.',
-                'location' => 'Huye, Downtown',
-            ],
-            [
-                'user' => $reporters[0],
+                'survivor_name' => 'Aline Uwimana',
+                'phone' => '0788234567',
+                'email' => 'aline.uwimana@example.rw',
                 'type' => 'sexual',
-                'description' => 'The survivor reported unwanted sexual advances and harassment by a colleague at the workplace. The incident occurred during office hours in Kigali.',
-                'location' => 'Kigali, Nyarutarama',
+                'description' => 'Reported sexual harassment incident in Kigali City.',
+                'location' => 'Kigali City',
+                'status' => 'verified',
             ],
             [
-                'user' => $reporters[1],
-                'type' => 'physical',
-                'description' => 'The survivor suffered physical abuse from a family member over a property dispute. Injuries include cuts on the hands and arms.',
-                'location' => 'Ruhango, Sector Center',
-            ],
-            [
-                'user' => $reporters[0],
+                'survivor_name' => 'Eric Habimana',
+                'phone' => '0788345678',
+                'email' => 'eric.habimana@example.rw',
                 'type' => 'psychological',
-                'description' => 'The survivor is experiencing emotional abuse and isolation from a family member, causing severe stress and insomnia.',
-                'location' => 'Gisenyi, Rubavu',
+                'description' => 'Experiencing severe trauma after domestic violence.',
+                'location' => 'Butare',
+                'status' => 'in_progress',
+            ],
+            [
+                'survivor_name' => 'Marie Mukamana',
+                'phone' => '0788456789',
+                'email' => 'marie.mukamana@example.rw',
+                'type' => 'physical',
+                'description' => 'Assaulted during community conflict in Huye district.',
+                'location' => 'Huye',
+                'status' => 'resolved',
+            ],
+            [
+                'survivor_name' => 'Claude Niyonsaba',
+                'phone' => '0788567890',
+                'email' => 'claude.niyonsaba@example.rw',
+                'type' => 'sexual',
+                'description' => 'Survivor reports sexual abuse in Musanze.',
+                'location' => 'Musanze',
+                'status' => 'pending',
+            ],
+            [
+                'survivor_name' => 'Jeanne Mukeshimana',
+                'phone' => '0788678901',
+                'email' => 'jeanne.mukeshimana@example.rw',
+                'type' => 'psychological',
+                'description' => 'Psychological trauma due to family abuse.',
+                'location' => 'Ruhango',
+                'status' => 'in_progress',
+            ],
+            [
+                'survivor_name' => 'Fabrice Nshimiyimana',
+                'phone' => '0788789012',
+                'email' => 'fabrice.nshimiyimana@example.rw',
+                'type' => 'physical',
+                'description' => 'Injured during a road accident in Kigali.',
+                'location' => 'Kigali',
+                'status' => 'verified',
+            ],
+            [
+                'survivor_name' => 'Sandrine Ingabire',
+                'phone' => '0788890123',
+                'email' => 'sandrine.ingabire@example.rw',
+                'type' => 'sexual',
+                'description' => 'Victim of harassment in Nyagatare district.',
+                'location' => 'Nyagatare',
+                'status' => 'resolved',
+            ],
+            [
+                'survivor_name' => 'Emmanuel Uwizeyimana',
+                'phone' => '0788901234',
+                'email' => 'emmanuel.uwizeyimana@example.rw',
+                'type' => 'psychological',
+                'description' => 'Experiencing stress and trauma after local dispute.',
+                'location' => 'Gisenyi',
+                'status' => 'pending',
             ],
         ];
 
-        foreach ($realCases as $index => $rcase) {
-            $case = SafeZoneCase::create([
-                'user_id' => $rcase['user']->id,
-                'agent_id' => $agents[$index % $agents->count()]->id,      // assign agents in round-robin
-                'medical_id' => $medicalStaff[$index % $medicalStaff->count()]->id, // assign medical staff in round-robin
-                'type' => $rcase['type'],
-                'description' => $rcase['description'],
-                'location' => $rcase['location'],
-                'status' => 'in_progress', // set as assigned/in-progress
+        foreach ($cases as $index => $caseData) {
+            // Generate unique case number
+            $number = $index + 1;
+            $case_number = 'SZC-' . date('Y') . '-' . str_pad($number, 3, '0', STR_PAD_LEFT);
+
+            SafeZoneCase::create([
+                'agent_id' => $agents[$index % count($agents)],
+                'medical_id' => $medicals[$index % count($medicals)],
+                'case_number' => $case_number,
+                'survivor_name' => $caseData['survivor_name'],
+                'phone' => $caseData['phone'],
+                'email' => $caseData['email'],
+                'type' => $caseData['type'],
+                'description' => $caseData['description'],
+                'location' => $caseData['location'],
+                'status' => $caseData['status'],
             ]);
         }
     }

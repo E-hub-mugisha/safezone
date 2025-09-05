@@ -10,47 +10,47 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        $users = [
-            [
-                'name' => 'Eric Mugisha',
-                'email' => 'eric@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'user',
-            ],
-            [
-                'name' => 'Alice Uwimana',
-                'email' => 'alice@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'user',
-            ],
-            [
-                'name' => 'John Niyonzima',
-                'email' => 'john@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'agent',
-            ],
-            [
-                'name' => 'Claire Mukamana',
-                'email' => 'claire@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'agent',
-            ],
-            [
-                'name' => 'Dr. Patrick Habimana',
-                'email' => 'patrick@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'medical',
-            ],
-            [
-                'name' => 'Dr. Jeanne Mukeshimana',
-                'email' => 'jeanne@example.com',
-                'password' => Hash::make('password123'),
-                'role' => 'medical',
-            ],
-        ];
+        // Admin
+        User::create([
+            'name' => 'Alice Admin',
+            'email' => 'admin@safezone.com',
+            'password' => Hash::make('password123'),
+            'role' => 'admin',
+        ]);
 
+        // Regular Users
+        $users = [
+            ['name' => 'John Doe', 'email' => 'john.doe@safezone.com'],
+            ['name' => 'Jane Smith', 'email' => 'jane.smith@safezone.com'],
+            ['name' => 'Bob Johnson', 'email' => 'bob.johnson@safezone.com'],
+        ];
         foreach ($users as $user) {
-            User::create($user);
+            User::create([
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'password' => Hash::make('password123'),
+                'role' => 'user',
+            ]);
+        }
+
+        // Agents
+        for ($i = 1; $i <= 6; $i++) {
+            User::create([
+                'name' => "Agent $i",
+                'email' => "agent$i@safezone.com",
+                'password' => Hash::make('password123'),
+                'role' => 'agent',
+            ]);
+        }
+
+        // Medical Staff
+        for ($i = 1; $i <= 6; $i++) {
+            User::create([
+                'name' => "Dr. Med$i",
+                'email' => "med$i@safezone.com",
+                'password' => Hash::make('password123'),
+                'role' => 'medical',
+            ]);
         }
     }
 }
