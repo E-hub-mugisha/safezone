@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MedicalReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SafeZoneCaseController;
@@ -15,11 +16,9 @@ Route::post('/track-case', [SafeZoneCaseController::class, 'trackCase'])->name('
 Route::post('/case/{id}/add-evidence', [SafeZoneCaseController::class, 'addEvidence'])->name('case.add.evidence');
 Route::get('/cases/{id}/download', [SafeZoneCaseController::class, 'downloadPDF'])->name('cases.download');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -28,6 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/users', [ProfileController::class, 'storeUser'])->name('users.store');
     Route::put('/users/{user}', [ProfileController::class, 'updateUser'])->name('users.update');
     Route::delete('/users/{user}', [ProfileController::class, 'destroyUser'])->name('users.destroy');
+
+    Route::get('/reporters', [SafeZoneCaseController::class, 'listReporter'])->name('reporters.list');
+    Route::get('/medical-staff', [ProfileController::class, 'medicalStaff'])->name('medical-staff.index');
 
     Route::resource('safe-zone-cases', \App\Http\Controllers\SafeZoneCaseController::class);
     Route::get('/safe-zone-cases/{id}', [SafeZoneCaseController::class, 'show'])

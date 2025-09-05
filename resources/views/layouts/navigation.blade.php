@@ -39,6 +39,18 @@
                         Evidences
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('reporters.list') ? 'active' : '' }}"
+                        href="{{ route('reporters.list') }}">
+                        Reporters
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('medical-staff.index') ? 'active' : '' }}"
+                        href="{{ route('medical-staff.index') }}">
+                        Medical Staff
+                    </a>
+                </li>
             </ul>
 
             <!-- Right Side -->

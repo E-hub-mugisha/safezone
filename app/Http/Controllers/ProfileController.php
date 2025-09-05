@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\SafeZoneCase;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -111,5 +112,20 @@ class ProfileController extends Controller
     {
         $user->delete();
         return redirect()->back()->with('success', 'User deleted successfully.');
+    }
+
+    public function listReporter()
+    {
+        $reporters = SafeZoneCase::select('survivor_name', 'email', 'phone')
+            ->distinct()
+            ->get();
+
+        return view('users.reporter', compact('reporters'));
+    }
+
+    public function medicalStaff()
+    {
+        $medicalStaff = User::where('role', 'medical')->get();
+        return view('users.medical-staff', compact('medicalStaff'));
     }
 }

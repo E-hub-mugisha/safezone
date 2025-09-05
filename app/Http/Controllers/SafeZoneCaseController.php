@@ -302,4 +302,14 @@ class SafeZoneCaseController extends Controller
 
         return $pdf->download($filename);
     }
+
+    public function listReporter()
+    {
+        $reporters = SafeZoneCase::select('survivor_name', 'email', 'phone')
+            ->distinct()
+            ->get();
+
+        return view('users.reporter', compact('reporters'));
+    }
+    
 }
