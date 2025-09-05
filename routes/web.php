@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/safe-zone-cases/{id}', [SafeZoneCaseController::class, 'show'])
         ->name('cases.show');
     Route::get('safe-zone-cases/{id}/evidences', [\App\Http\Controllers\SafeZoneCaseController::class, 'showEvidence'])->name('safe-zone-cases.showEvidence');
-
+    Route::post('safe-zone-case/{id}/evidences', [\App\Http\Controllers\SafeZoneCaseController::class, 'addEvidence'])->name('safe-zone-cases.addEvidence');
     Route::resource('evidences', \App\Http\Controllers\EvidenceController::class);
 
 

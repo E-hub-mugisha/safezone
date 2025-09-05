@@ -41,7 +41,7 @@
     <!-- Add Evidence Modal -->
     <div class="modal fade" id="addEvidenceModal" tabindex="-1" aria-labelledby="addEvidenceModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form action="{{ route('evidences.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('safe-zone-cases.addEvidence', $case->id ) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="case_id" value="{{ $case->id }}">
                 <div class="modal-content">

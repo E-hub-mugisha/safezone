@@ -13,6 +13,7 @@ class Evidence extends Model
         'case_id',
         'file_path',
         'description',
+        'type',
     ];
 
     public function case() {

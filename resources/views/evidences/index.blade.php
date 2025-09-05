@@ -5,8 +5,13 @@
     <h3>Case Evidences</h3>
 
     @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+
+    <!-- Add Evidence Global Button -->
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addEvidenceModal">
+        Add New Evidence
+    </button>
 
     <table class="table table-bordered table-striped">
         <thead>
@@ -20,65 +25,64 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($evidences as $evidence)
-            <tr>
-                <td>{{ $evidence->id }}</td>
-                <td>{{ $evidence->case_id }}</td>
-                <td>{{ ucfirst($evidence->type) }}</td>
-                <td>{{ $evidence->description }}</td>
-                <td>{{ $evidence->created_at->format('Y-m-d H:i') }}</td>
-                <td>
-                    <!-- Add Evidence Modal Trigger -->
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEvidenceModal{{ $evidence->id }}">Add Evidence</button>
-                    <!-- Action Buttons -->
-                    <a href="{{ asset('storage/' . $evidence->file_path) }}" target="_blank" class="btn btn-sm btn-primary">View</a>
-                    <a href="{{ asset('storage/' . $evidence->file_path) }}" download class="btn btn-sm btn-success">Download</a>
-                </td>
-            </tr>
-
-            <!-- Add Evidence Modal -->
-            <div class="modal fade" id="addEvidenceModal{{ $evidence->id }}" tabindex="-1" aria-labelledby="addEvidenceModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <form action="{{ route('evidences.store', $evidence->case_id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="case_id" value="{{ $evidence->case_id }}">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addEvidenceModalLabel">Add New Evidence</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Type</label>
-                                    <select name="type" class="form-select" required>
-                                        <option value="image">Image</option>
-                                        <option value="video">Video</option>
-                                        <option value="document">Document</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Description</label>
-                                    <textarea name="description" class="form-control" rows="3" required></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">File</label>
-                                    <input type="file" name="file" class="form-control" required>
-                                    <small class="form-text text-muted">Max size: 10MB. Allowed types: jpg, png, mp4, pdf, docx.</small>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Upload Evidence</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            @endforeach
+            @forelse($evidences as $evidence)
+                <tr>
+                    <td>{{ $evidence->id }}</td>
+                    <td>{{ $evidence->case_id }}</td>
+                    <td>{{ ucfirst($evidence->type) }}</td>
+                    <td>{{ $evidence->description }}</td>
+                    <td>{{ $evidence->created_at->format('Y-m-d H:i') }}</td>
+                    <td>
+                        <a href="{{ asset('storage/' . $evidence->file_path) }}" target="_blank" class="btn btn-sm btn-primary">View</a>
+                        <a href="{{ asset('storage/' . $evidence->file_path) }}" download class="btn btn-sm btn-success">Download</a>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center">No evidences found.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
+</div>
 
-
+<!-- Single Add Evidence Modal -->
+<div class="modal fade" id="addEvidenceModal" tabindex="-1" aria-labelledby="addEvidenceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('evidences.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="case_id" value="{{ $case->id ?? request()->case_id }}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEvidenceModalLabel">Add New Evidence</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Type</label>
+                        <select name="type" class="form-select" required>
+                            <option value="image">Image</option>
+                            <option value="video">Video</option>
+                            <option value="document">Document</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">File</label>
+                        <input type="file" name="file" class="form-control" required>
+                        <small class="form-text text-muted">Max size: 10MB. Allowed: jpg, png, mp4, pdf, docx.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Upload Evidence</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection
