@@ -43,7 +43,7 @@
                         @foreach($cases as $case)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><a href="{{ route('cases.show', $case->id) }}">{{ $case->case_number }}</a></td>
+                            <td><a href="{{ route('safe-zone-cases.show', $case->id) }}">{{ $case->case_number }}</a></td>
                             <td>{{ $case->survivor_name }}</td>
                             <td>{{ $case->email }}</td>
                             <td>{{ $case->phone }}</td>
@@ -70,7 +70,7 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionsDropdown{{ $case->id }}">
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('cases.show', $case->id) }}">
+                                            <a class="dropdown-item" href="{{ route('safe-zone-cases.show', $case->id) }}">
                                                 View Details
                                             </a>
                                         </li>

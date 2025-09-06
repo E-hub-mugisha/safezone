@@ -14,28 +14,78 @@
         <!-- Nav Links -->
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
             <ul class="navbar-nav text-center">
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white {{ request()->routeIs('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white {{ request()->routeIs('safe_zone_cases.index') ? 'active' : '' }}" href="{{ route('safe-zone-cases.index') }}">Cases</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white {{ request()->routeIs('evidences.index') ? 'active' : '' }}" href="{{ route('evidences.index') }}">Evidences</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white {{ request()->routeIs('reporters.list') ? 'active' : '' }}" href="{{ route('reporters.list') }}">Reporters</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white {{ request()->routeIs('medical-staff.index') ? 'active' : '' }}" href="{{ route('medical-staff.index') }}">Medical Staff</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white {{ request()->routeIs('agents.list') ? 'active' : '' }}" href="{{ route('agents.list') }}">Agents</a>
-                </li>
-            </ul>
+    @if(Auth::check())
+        {{-- Admin --}}
+        @if(Auth::user()->role === 'admin')
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                   href="{{ route('dashboard') }}">Dashboard</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('users.index') ? 'active' : '' }}"
+                   href="{{ route('users.index') }}">Users</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('safe-zone-cases.index') ? 'active' : '' }}"
+                   href="{{ route('safe-zone-cases.index') }}">Cases</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('evidences.index') ? 'active' : '' }}"
+                   href="{{ route('evidences.index') }}">Evidences</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('reporters.list') ? 'active' : '' }}"
+                   href="{{ route('reporters.list') }}">Reporters</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('medical-staff.index') ? 'active' : '' }}"
+                   href="{{ route('medical-staff.index') }}">Medical Staff</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('agents.list') ? 'active' : '' }}"
+                   href="{{ route('agents.list') }}">Agents</a>
+            </li>
+
+        {{-- Agent --}}
+        @elseif(Auth::user()->role === 'agent')
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                   href="{{ route('dashboard') }}">Dashboard</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('safe-zone-cases.index') ? 'active' : '' }}"
+                   href="{{ route('safe-zone-cases.index') }}">Cases</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('evidences.index') ? 'active' : '' }}"
+                   href="{{ route('evidences.index') }}">Evidences</a>
+            </li>
+
+        {{-- Medical Staff --}}
+        @elseif(Auth::user()->role === 'medical_staff')
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                   href="{{ route('dashboard') }}">Dashboard</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('safe-zone-cases.index') ? 'active' : '' }}"
+                   href="{{ route('safe-zone-cases.index') }}">Cases</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('medical-staff.index') ? 'active' : '' }}"
+                   href="{{ route('medical-staff.index') }}">Medical Reports</a>
+            </li>
+
+        {{-- Survivor/User --}}
+        @elseif(Auth::user()->role === 'user')
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white {{ request()->routeIs('user.reportCases.index') ? 'active' : '' }}"
+                   href="{{ route('user.reportCases.index') }}">My Reports</a>
+            </li>
+        @endif
+    @endif
+</ul>
+
         </div>
 
         <!-- Right Side -->

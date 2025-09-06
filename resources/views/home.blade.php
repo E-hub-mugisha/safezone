@@ -43,7 +43,13 @@
                     <li><a href="#hero" class="active">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#features">Features</a></li>
+                    @if(Auth::check() && (Auth::user()->role === 'agent' || Auth::user()->role === 'medical_staff' || Auth::user()->role === 'admin'))
+                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    @elseif(Auth::check() && Auth::user()->role === 'user')
+                    <li><a href="{{ route('user.reportCases.index') }}">My Reports</a></li>
+                    @else
                     <li><a href="{{ route('login') }}">Login</a></li>
+                    @endif
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

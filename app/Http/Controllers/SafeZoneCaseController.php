@@ -327,4 +327,11 @@ class SafeZoneCaseController extends Controller
 
         return back()->with('success', 'Note added successfully.');
     }
+
+    public function myReportedCases()
+    {
+        $user = auth()->user();
+        $cases = SafeZoneCase::where('email', $user->email)->with(['agent', 'medical', 'evidences'])->get();
+        return view('cases.my_reports', compact('cases'));
+    }
 }

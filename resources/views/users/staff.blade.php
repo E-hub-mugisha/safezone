@@ -6,9 +6,11 @@
         <h3>Staff Members</h3>
         <div>
             <a href="{{ route('dashboard') }}" class="btn btn-secondary">Back to Home</a>
+            @if(Auth::user()->role === 'admin')
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStaffModal">
                 <i class="bi bi-plus-circle"></i> Add Staff
             </button>
+            @endif
         </div>
     </div>
 
@@ -37,12 +39,14 @@
                     <a href="mailto:{{ $user->email }}" class="btn btn-sm btn-primary" title="Email">
                         Email
                     </a>
+                    @if(Auth::user()->role === 'admin')
                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editStaffModal{{ $user->id }}" title="Edit">
                         Edit
                     </button>
                     <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteStaffModal{{ $user->id }}" title="Delete">
                         Delete
                     </button>
+                    @endif
                 </td>
             </tr>
 
