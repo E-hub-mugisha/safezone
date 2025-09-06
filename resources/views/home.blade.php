@@ -34,7 +34,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+            <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto me-xl-0">
                 <h1 class="sitename">{{ config('app.name') }}</h1>
             </a>
 
@@ -182,10 +182,10 @@
                             </p>
 
                             <div class="hero-buttons">
-                                <a href="#reportCase" data-bs-toggle="modal" class="btn btn-primary me-0 me-sm-2 mx-1">
+                                <a href="#reportCase" data-bs-toggle="modal" data-bs-target="#reportCaseModal" class="btn btn-primary me-0 me-sm-2 mx-1">
                                     Report a Case
                                 </a>
-                                <a href="#trackCase" class="btn btn-outline-secondary mt-2 mt-sm-0">
+                                <a href="#trackCase" data-bs-toggle="modal" data-bs-target="#trackCaseModal" class="btn btn-outline-primary mt-2 mt-sm-0">
                                     <i class="bi bi-search me-1"></i>
                                     Track Your Case
                                 </a>
@@ -364,24 +364,25 @@
             </div>
 
         </section><!-- /Features Section -->
-        
+
 
         <!-- Contact Section -->
         <section id="contact" class="contact section light-background">
 
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
-                <h2>Contact</h2>
-                <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+                <h2>Contact Us</h2>
+                <p>We’d love to hear from you. Reach out with any questions, feedback, or partnership opportunities.</p>
             </div><!-- End Section Title -->
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
                 <div class="row g-4 g-lg-5">
+                    <!-- Contact Info -->
                     <div class="col-lg-5">
                         <div class="info-box" data-aos="fade-up" data-aos-delay="200">
                             <h3>Contact Info</h3>
-                            <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante ipsum primis.</p>
+                            <p>Our team is here to support you. Get in touch through any of the options below.</p>
 
                             <div class="info-item" data-aos="fade-up" data-aos-delay="300">
                                 <div class="icon-box">
@@ -389,8 +390,7 @@
                                 </div>
                                 <div class="content">
                                     <h4>Our Location</h4>
-                                    <p>A108 Adam Street</p>
-                                    <p>New York, NY 535022</p>
+                                    <p>Kigali, Rwanda</p>
                                 </div>
                             </div>
 
@@ -400,8 +400,7 @@
                                 </div>
                                 <div class="content">
                                     <h4>Phone Number</h4>
-                                    <p>+1 5589 55488 55</p>
-                                    <p>+1 6678 254445 41</p>
+                                    <p>+250 788 123 456</p>
                                 </div>
                             </div>
 
@@ -411,35 +410,37 @@
                                 </div>
                                 <div class="content">
                                     <h4>Email Address</h4>
-                                    <p>info@example.com</p>
-                                    <p>contact@example.com</p>
+                                    <p>support@safezone.com</p>
+                                    <p>info@safezone.com</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Contact Form -->
                     <div class="col-lg-7">
                         <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
                             <h3>Get In Touch</h3>
-                            <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante ipsum primis.</p>
+                            <p>Fill out the form below and our team will get back to you shortly.</p>
 
-                            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+                            <form action="#" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+                                @csrf
                                 <div class="row gy-4">
 
                                     <div class="col-md-6">
-                                        <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                                        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
                                     </div>
 
-                                    <div class="col-md-6 ">
-                                        <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                                    </div>
-
-                                    <div class="col-12">
-                                        <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                                    <div class="col-md-6">
+                                        <input type="email" class="form-control" name="email" placeholder="Your Email" required>
                                     </div>
 
                                     <div class="col-12">
-                                        <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                                        <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
                                     </div>
 
                                     <div class="col-12 text-center">
@@ -447,7 +448,7 @@
                                         <div class="error-message"></div>
                                         <div class="sent-message">Your message has been sent. Thank you!</div>
 
-                                        <button type="submit" class="btn">Send Message</button>
+                                        <button type="submit" class="btn btn-primary">Send Message</button>
                                     </div>
 
                                 </div>
@@ -462,89 +463,66 @@
 
         </section><!-- /Contact Section -->
 
+
     </main>
 
     <footer id="footer" class="footer">
 
         <div class="container footer-top">
             <div class="row gy-4">
+
+                <!-- About -->
                 <div class="col-lg-4 col-md-6 footer-about">
-                    <a href="index.html" class="logo d-flex align-items-center">
-                        <span class="sitename">iLanding</span>
+                    <a href="{{ url('/') }}" class="logo d-flex align-items-center">
+                        <span class="sitename">{{ config('app.name') }}</span>
                     </a>
                     <div class="footer-contact pt-3">
-                        <p>A108 Adam Street</p>
-                        <p>New York, NY 535022</p>
-                        <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-                        <p><strong>Email:</strong> <span>info@example.com</span></p>
+                        <p>Kigali, Rwanda</p>
+                        <p class="mt-3"><strong>Helpline:</strong> <span>+250 788 123 456</span></p>
+                        <p><strong>Email:</strong> <span>support@safezone.rw</span></p>
                     </div>
                     <div class="social-links d-flex mt-4">
-                        <a href=""><i class="bi bi-twitter-x"></i></a>
-                        <a href=""><i class="bi bi-facebook"></i></a>
-                        <a href=""><i class="bi bi-instagram"></i></a>
-                        <a href=""><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
 
+                <!-- Useful Links -->
                 <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Useful Links</h4>
+                    <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Terms of service</a></li>
-                        <li><a href="#">Privacy policy</a></li>
+                        <li><a href="{{ url('/') }}">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Report a Case</a></li>
+                        <li><a href="#">Awareness Resources</a></li>
+                        <li><a href="#">Contact</a></li>
                     </ul>
                 </div>
 
+                <!-- Services -->
                 <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Our Services</h4>
+                    <h4>Support Services</h4>
                     <ul>
-                        <li><a href="#">Web Design</a></li>
-                        <li><a href="#">Web Development</a></li>
-                        <li><a href="#">Product Management</a></li>
-                        <li><a href="#">Marketing</a></li>
-                        <li><a href="#">Graphic Design</a></li>
+                        <li><a href="#">Case Tracking</a></li>
+                        <li><a href="#">Evidence Management</a></li>
+                        <li><a href="#">Staff Training</a></li>
+                        <li><a href="#">Feedback</a></li>
+                        <li><a href="#">Secure Messaging</a></li>
                     </ul>
                 </div>
-
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Hic solutasetp</h4>
-                    <ul>
-                        <li><a href="#">Molestiae accusamus iure</a></li>
-                        <li><a href="#">Excepturi dignissimos</a></li>
-                        <li><a href="#">Suscipit distinctio</a></li>
-                        <li><a href="#">Dilecta</a></li>
-                        <li><a href="#">Sit quas consectetur</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Nobis illum</h4>
-                    <ul>
-                        <li><a href="#">Ipsam</a></li>
-                        <li><a href="#">Laudantium dolorum</a></li>
-                        <li><a href="#">Dinera</a></li>
-                        <li><a href="#">Trodelas</a></li>
-                        <li><a href="#">Flexo</a></li>
-                    </ul>
-                </div>
-
             </div>
         </div>
 
         <div class="container copyright text-center mt-4">
-            <p>© <span>Copyright</span> <strong class="px-1 sitename">iLanding</strong> <span>All Rights Reserved</span></p>
-            <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you've purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-            </div>
+            <p>© <span>{{ date('Y') }}</span> <strong class="px-1 sitename">{{ config('app.name') }}</strong>
+                <span> | Empowering Survivors, Strengthening Justice</span>
+            </p>
         </div>
 
     </footer>
+
 
     <!-- Scroll Top -->
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

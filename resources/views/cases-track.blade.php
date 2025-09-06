@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h2 class="mb-4">Track Your Case</h2>
-    <a href="{{ route('cases.download', $case->id) }}" class="btn btn-danger">
+    <a href="{{ route('cases.download', $case->id) }}" class="btn btn-danger mb-3">
         Download Case Report (PDF)
     </a>
 

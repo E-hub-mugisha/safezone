@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\CaseSubmittedMail;
+use App\Models\CaseNote;
 use App\Models\SafeZoneCase;
 use App\Models\User;
 use App\Models\Evidence;
@@ -83,8 +84,8 @@ class SafeZoneCaseController extends Controller
     // Show single case
     public function show($id)
     {
-        $case = SafeZoneCase::with(['agent', 'medical', 'evidences', 'trackingLogs','user'])->findOrFail($id);
-        
+        $case = SafeZoneCase::with(['agent', 'medical', 'evidences', 'trackingLogs', 'user'])->findOrFail($id);
+
         $agents = User::where('role', 'agent')->get();
         $medicalStaff = User::where('role', 'medical')->get();
         return view('cases.show', compact('case', 'agents', 'medicalStaff'));
@@ -228,45 +229,45 @@ class SafeZoneCaseController extends Controller
         return view('cases-track', compact('case'));
     }
 
-    public function addEvidence(Request $request, $id) 
-{
-    $case = SafeZoneCase::findOrFail($id);
+    public function addEvidence(Request $request, $id)
+    {
+        $case = SafeZoneCase::findOrFail($id);
 
-    $request->validate([
-        'type' => 'nullable|string|max:100',
-        'description' => 'nullable|string|max:255',
-        'file' => 'required|file|mimes:jpg,png,pdf,docx,mp4|max:20480', // 20MB
-    ]);
-
-    if ($request->hasFile('file')) {
-        $file = $request->file('file'); // single file
-        $path = $file->store('evidences', 'public');
-
-        Evidence::create([
-            'case_id' => $case->id,
-            'type' => $request->type ?? 'other',
-            'description' => $request->description ?? null,
-            'file_path' => $path,
+        $request->validate([
+            'type' => 'nullable|string|max:100',
+            'description' => 'nullable|string|max:255',
+            'file' => 'required|file|mimes:jpg,png,pdf,docx,mp4|max:20480', // 20MB
         ]);
 
-        // ✅ Tracking log for this uploaded file
-        TrackingLogService::log(
-            $case->id,
-            auth()->id(),
-            'Evidence Added',
-            "File: {$file->getClientOriginalName()}"
-        );
+        if ($request->hasFile('file')) {
+            $file = $request->file('file'); // single file
+            $path = $file->store('evidences', 'public');
+
+            Evidence::create([
+                'case_id' => $case->id,
+                'type' => $request->type ?? 'other',
+                'description' => $request->description ?? null,
+                'file_path' => $path,
+            ]);
+
+            // ✅ Tracking log for this uploaded file
+            TrackingLogService::log(
+                $case->id,
+                auth()->id(),
+                'Evidence Added',
+                "File: {$file->getClientOriginalName()}"
+            );
+        }
+
+        // 🔔 Notify Admin & RIB roles
+        $adminsAndRibs = User::whereIn('role', ['admin', 'rib'])->get();
+
+        foreach ($adminsAndRibs as $user) {
+            Mail::to($user->email)->send(new \App\Mail\NewEvidenceAddedMail($case));
+        }
+
+        return back()->with('success', 'Evidence uploaded successfully and admin/RIB notified.');
     }
-
-    // 🔔 Notify Admin & RIB roles
-    $adminsAndRibs = User::whereIn('role', ['admin', 'rib'])->get();
-
-    foreach ($adminsAndRibs as $user) {
-        Mail::to($user->email)->send(new \App\Mail\NewEvidenceAddedMail($case));
-    }
-
-    return back()->with('success', 'Evidence uploaded successfully and admin/RIB notified.');
-}
 
 
     public function approveEvidence($id)
@@ -311,5 +312,19 @@ class SafeZoneCaseController extends Controller
 
         return view('users.reporter', compact('reporters'));
     }
-    
+
+    public function storeNote(Request $request, $caseId)
+    {
+        $request->validate([
+            'note' => 'required|string|max:2000',
+        ]);
+
+        CaseNote::create([
+            'case_id' => $caseId,
+            'user_id' => auth()->id(),
+            'note'    => $request->note,
+        ]);
+
+        return back()->with('success', 'Note added successfully.');
+    }
 }

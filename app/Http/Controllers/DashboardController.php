@@ -2,14 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evidence;
 use App\Models\Resource;
 use App\Models\SafeZoneCase;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        // Total counts
+        $totalCases = SafeZoneCase::count();
+        $totalUsers = User::count();
+
+        // Assuming staff are users with role 'agent'
+        $totalStaff = User::where('role', 'agent')->count();
+
+        $totalEvidences = Evidence::count();
+
+        // Recent 5 cases
+        $recentCases = SafeZoneCase::with(['agent', 'medical'])->latest()->take(5)->get();
+
         // Cases grouped by type
         $casesByType = SafeZoneCase::selectRaw('type, COUNT(*) as count')
             ->groupBy('type')
@@ -28,7 +42,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->pluck('count', 'location');
 
-        return view('dashboard.index', compact('casesByType', 'casesByStatus', 'casesByLocation'));
+        return view('dashboard.index', compact('casesByType', 'casesByStatus', 'casesByLocation', 'totalCases', 'totalUsers', 'totalStaff', 'totalEvidences', 'recentCases'));
     }
 
     public function indexResource()

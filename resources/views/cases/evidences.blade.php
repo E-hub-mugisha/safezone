@@ -1,42 +1,50 @@
 @extends('layouts.app')
 @section('title', 'Case Evidences')
 @section('content')
-<div class="container">
-    <h3>Case Evidences for Case #{{ $case->id }} - {{ $case->title }}</h3>
-    <a href="{{ route('safe-zone-cases.index') }}" class="btn btn-secondary mb-3">Back to Cases</a>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Case Evidences for Case #{{ $case->id }} </h4>
+        <p>{{ $case->description }}</p>
+        <div>
+            <a href="{{ route('safe-zone-cases.index') }}" class="btn btn-secondary">Back to Cases</a>
 
+            <!-- Add Evidence Modal Trigger -->
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEvidenceModal">Add Evidence</button>
+        </div>
+    </div>
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Uploaded At</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($case->evidences as $evidence)
-            <tr>
-                <td>{{ $evidence->id }}</td>
-                <td>{{ ucfirst($evidence->type) }}</td>
-                <td>{{ $evidence->description }}</td>
-                <td>{{ $evidence->created_at->format('Y-m-d H:i') }}</td>
-                <td>
-                    <a href="{{ asset('storage/' . $evidence->file_path) }}" target="_blank" class="btn btn-sm btn-primary">View</a>
-                    <a href="{{ asset('storage/' . $evidence->file_path) }}" download class="btn btn-sm btn-success">Download</a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <!-- Add Evidence Modal Trigger -->
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEvidenceModal">Add Evidence</button>
+    <div class="card card-bordered card-preview">
+        <div class="card-inner">
+            <table class="table table-bordered table-striped datatable-init-export nowrap" data-export-title="Export">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Uploaded At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($case->evidences as $evidence)
+                    <tr>
+                        <td>{{ $evidence->id }}</td>
+                        <td>{{ ucfirst($evidence->type) }}</td>
+                        <td>{{ $evidence->description }}</td>
+                        <td>{{ $evidence->created_at->format('Y-m-d H:i') }}</td>
+                        <td>
+                            <a href="{{ asset('storage/' . $evidence->file_path) }}" target="_blank" class="btn btn-sm btn-primary">View</a>
+                            <a href="{{ asset('storage/' . $evidence->file_path) }}" download class="btn btn-sm btn-success">Download</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <!-- Add Evidence Modal -->
     <div class="modal fade" id="addEvidenceModal" tabindex="-1" aria-labelledby="addEvidenceModalLabel" aria-hidden="true">

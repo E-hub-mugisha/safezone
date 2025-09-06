@@ -12,7 +12,7 @@
 <body>
     <h2>Case Report</h2>
 
-    <p><strong>Case ID:</strong> {{ $case->case_id }}</p>
+    <p><strong>Case ID:</strong> {{ $case->case_number }}</p>
     <p><strong>Status:</strong> {{ ucfirst($case->status) }}</p>
     <p><strong>Type:</strong> {{ ucfirst($case->type) }}</p>
     <p><strong>Description:</strong> {{ $case->description }}</p>

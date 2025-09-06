@@ -5,6 +5,7 @@ use App\Http\Controllers\MedicalReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SafeZoneCaseController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 Route::get('/', function () {
     return view('home');
@@ -27,15 +28,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/users', [ProfileController::class, 'storeUser'])->name('users.store');
     Route::put('/users/{user}', [ProfileController::class, 'updateUser'])->name('users.update');
     Route::delete('/users/{user}', [ProfileController::class, 'destroyUser'])->name('users.destroy');
+    Route::get('/agents', [ProfileController::class, 'listAgent'])->name('agents.list');
 
     Route::get('/reporters', [SafeZoneCaseController::class, 'listReporter'])->name('reporters.list');
     Route::get('/medical-staff', [ProfileController::class, 'medicalStaff'])->name('medical-staff.index');
 
     Route::resource('safe-zone-cases', \App\Http\Controllers\SafeZoneCaseController::class);
-    Route::get('/safe-zone-cases/{id}', [SafeZoneCaseController::class, 'show'])
-        ->name('cases.show');
+    Route::get('/safe-zone-cases/{id}', [SafeZoneCaseController::class, 'show'])->name('cases.show');
     Route::get('safe-zone-cases/{id}/evidences', [\App\Http\Controllers\SafeZoneCaseController::class, 'showEvidence'])->name('safe-zone-cases.showEvidence');
     Route::post('safe-zone-case/{id}/evidences', [\App\Http\Controllers\SafeZoneCaseController::class, 'addEvidence'])->name('safe-zone-cases.addEvidence');
+    Route::post('/safe-zone-cases/{case}/notes', [SafeZoneCaseController::class, 'storeNote'])->name('cases.notes.store');
+
+    
     Route::resource('evidences', \App\Http\Controllers\EvidenceController::class);
 
 

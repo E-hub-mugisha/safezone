@@ -49,4 +49,9 @@ class SafeZoneCase extends Model
     {
         return $this->hasMany(TrackingLogs::class, 'case_id');
     }
+
+    public function notes()
+    {
+        return $this->hasMany(CaseNote::class, 'case_id');
+    }
 }

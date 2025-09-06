@@ -128,4 +128,10 @@ class ProfileController extends Controller
         $medicalStaff = User::where('role', 'medical')->get();
         return view('users.medical-staff', compact('medicalStaff'));
     }
+
+    public function listAgent()
+    {
+        $staff = User::where('role', 'agent')->get();
+        return view('users.staff', compact('staff'));
+    }
 }
