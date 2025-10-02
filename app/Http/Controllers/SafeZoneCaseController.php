@@ -92,8 +92,10 @@ class SafeZoneCaseController extends Controller
     }
 
     // Update case (used for verification and assignment)
-    public function update(Request $request, SafeZoneCase $safeZoneCase)
+    public function update(Request $request, $id)
     {
+        $safeZoneCase = SafeZoneCase::findOrFail($id);
+
         if ($request->has('verify')) {
             $safeZoneCase->update(['status' => 'verified']);
         } elseif ($request->has('assign')) {
@@ -111,7 +113,7 @@ class SafeZoneCaseController extends Controller
         }
 
         // Notify reporter
-        $safeZoneCase->user->notify(new CaseStatusUpdated($safeZoneCase));
+        // $safeZoneCase->user->notify(new CaseStatusUpdated($safeZoneCase));
 
         return redirect()->back()->with('success', 'Case updated successfully.');
     }

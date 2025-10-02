@@ -109,7 +109,7 @@
                             <div class="modal-dialog">
                                 <form action="{{ route('safe-zone-cases.update',$case->id) }}" method="POST">
                                     @csrf
-                                    @method('PATCH')
+                                    @method('PUT')
                                     <input type="hidden" name="verify" value="1">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -133,7 +133,7 @@
                             <div class="modal-dialog">
                                 <form action="{{ route('safe-zone-cases.update',$case->id) }}" method="POST">
                                     @csrf
-                                    @method('PATCH')
+                                    @method('PUT')
                                     <input type="hidden" name="assign" value="1">
                                     <div class="modal-content">
                                         <div class="modal-header">
