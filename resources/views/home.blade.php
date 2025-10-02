@@ -40,7 +40,7 @@
 
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="#hero" class="active">Home</a></li>
+                    <li><a href="{{ url('/') }}" class="active">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#features">Features</a></li>
                     @if(Auth::check() && (Auth::user()->role === 'agent' || Auth::user()->role === 'medical_staff' || Auth::user()->role === 'admin'))
@@ -162,7 +162,7 @@
     <main class="main">
 
         <!-- Hero Section -->
-        <section id="hero" class="hero section">
+        <section id="about" class="hero section">
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
