@@ -202,17 +202,7 @@
                     <!-- Right Image -->
                     <div class="col-lg-6">
                         <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
-                            <img src="assets/img/safezone-hero.png" alt="SafeZone Reporting" class="img-fluid rounded shadow">
-
-                            <div class="customers-badge">
-                                <div class="customer-avatars">
-                                    <img src="assets/img/avatar-1.webp" alt="Agent" class="avatar">
-                                    <img src="assets/img/avatar-2.webp" alt="Medical Staff" class="avatar">
-                                    <img src="assets/img/avatar-3.webp" alt="Survivor" class="avatar">
-                                    <span class="avatar more">+RIB</span>
-                                </div>
-                                <p class="mb-0 mt-2">Trusted by survivors, supported by RIB & medical teams.</p>
-                            </div>
+                            <img src="front/assets/img/GEND01.jpg" alt="SafeZone Reporting" class="img-fluid rounded shadow">
                         </div>
                     </div>
                 </div>
@@ -318,7 +308,7 @@
                                 </ul>
                             </div>
                             <div class="col-lg-6 order-1 order-lg-2 text-center">
-                                <img src="assets/img/report-case.webp" alt="Report Case" class="img-fluid">
+                                <img src="front/assets/img/dashboard.png" alt="Report Case" class="img-fluid">
                             </div>
                         </div>
                     </div><!-- End tab content item -->
@@ -339,7 +329,7 @@
                                 </ul>
                             </div>
                             <div class="col-lg-6 order-1 order-lg-2 text-center">
-                                <img src="assets/img/track-case.webp" alt="Track Case" class="img-fluid">
+                                <img src="front/assets/img/dashboard.png" alt="Track Case" class="img-fluid">
                             </div>
                         </div>
                     </div><!-- End tab content item -->
@@ -360,7 +350,7 @@
                                 </p>
                             </div>
                             <div class="col-lg-6 order-1 order-lg-2 text-center">
-                                <img src="assets/img/evidence-notify.webp" alt="Evidence and Notifications" class="img-fluid">
+                                <img src="front/assets/img/dashboard.png" alt="Evidence and Notifications" class="img-fluid">
                             </div>
                         </div>
                     </div><!-- End tab content item -->

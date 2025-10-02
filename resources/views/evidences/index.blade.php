@@ -1,11 +1,16 @@
 @extends('layouts.app')
 @section('title', 'Case Evidences')
 @section('content')
+
+@php
+use Illuminate\Support\Str;
+@endphp
+
 <div class="container">
     <h3>Case Evidences</h3>
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <!-- Add Evidence Global Button -->
@@ -17,7 +22,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Case ID</th>
+                <th>Case</th>
                 <th>Type</th>
                 <th>Description</th>
                 <th>Uploaded At</th>
@@ -26,21 +31,23 @@
         </thead>
         <tbody>
             @forelse($evidences as $evidence)
-                <tr>
-                    <td>{{ $evidence->id }}</td>
-                    <td>{{ $evidence->case_id }}</td>
-                    <td>{{ ucfirst($evidence->type) }}</td>
-                    <td>{{ $evidence->description }}</td>
-                    <td>{{ $evidence->created_at->format('Y-m-d H:i') }}</td>
-                    <td>
-                        <a href="{{ asset('storage/' . $evidence->file_path) }}" target="_blank" class="btn btn-sm btn-primary">View</a>
-                        <a href="{{ asset('storage/' . $evidence->file_path) }}" download class="btn btn-sm btn-success">Download</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ $evidence->id }}</td>
+                <td>{{ Str::limit($evidence->case->description, 50) }}
+                    {{ $evidence->case->description }}
+                </td>
+                <td>{{ ucfirst($evidence->type) }}</td>
+                <td>{{ $evidence->description }}</td>
+                <td>{{ $evidence->created_at->format('Y-m-d H:i') }}</td>
+                <td>
+                    <a href="{{ asset('storage/' . $evidence->file_path) }}" target="_blank" class="btn btn-sm btn-primary">View</a>
+                    <a href="{{ asset('storage/' . $evidence->file_path) }}" download class="btn btn-sm btn-success">Download</a>
+                </td>
+            </tr>
             @empty
-                <tr>
-                    <td colspan="6" class="text-center">No evidences found.</td>
-                </tr>
+            <tr>
+                <td colspan="6" class="text-center">No evidences found.</td>
+            </tr>
             @endforelse
         </tbody>
     </table>

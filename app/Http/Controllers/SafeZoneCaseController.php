@@ -149,10 +149,20 @@ class SafeZoneCaseController extends Controller
             'location' => 'nullable|string',
         ]);
 
-        // Generate unique Case ID
-        $latestCase = SafeZoneCase::latest()->first();
-        $number = $latestCase ? $latestCase->id + 1 : 1;
-        $caseID = 'SZC-' . date('Y') . '-' . str_pad($number, 3, '0', STR_PAD_LEFT);
+        $year = date('Y');
+
+        $lastCase = SafeZoneCase::whereYear('created_at', $year)
+            ->orderByDesc('id')
+            ->first();
+
+        $lastNumber = $lastCase
+            ? (int) substr($lastCase->case_number, -3)
+            : 0;
+
+        $nextNumber = $lastNumber + 1;
+
+        $caseID = 'SZC-' . $year . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+
 
         // Create case
         $case = SafeZoneCase::create([
@@ -333,5 +343,10 @@ class SafeZoneCaseController extends Controller
         $user = auth()->user();
         $cases = SafeZoneCase::where('email', $user->email)->with(['agent', 'medical', 'evidences'])->get();
         return view('cases.my_reports', compact('cases'));
+    }
+    public function myReportedCaseShow($id)
+    {
+        $case = SafeZoneCase::findOrFail($id);
+        return view('cases.my_reports-show', compact('case'));
     }
 }

@@ -86,8 +86,10 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'User added successfully.');
     }
 
-    public function updateUser(Request $request, User $user)
+    public function updateUser(Request $request,  $id)
     {
+        $user = User::findOrFail($id);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$user->id,
@@ -95,6 +97,7 @@ class ProfileController extends Controller
             'password' => 'nullable|string|min:6|confirmed'
         ]);
 
+        
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role = $request->role;
@@ -108,8 +111,9 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'User updated successfully.');
     }
 
-    public function destroyUser(User $user)
+    public function destroyUser($id)
     {
+        $user = User::findOrFail($id);
         $user->delete();
         return redirect()->back()->with('success', 'User deleted successfully.');
     }
@@ -121,6 +125,13 @@ class ProfileController extends Controller
             ->get();
 
         return view('users.reporter', compact('reporters'));
+    }
+
+    public function destroyReporter($email)
+    {
+        $reporters = SafeZoneCase::findOrFail($email);
+        $reporters->delete();
+        return redirect()->back()->with('success', 'reporter deleted successfully.');
     }
 
     public function medicalStaff()

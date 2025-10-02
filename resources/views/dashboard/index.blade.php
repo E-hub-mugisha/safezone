@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('title', 'Admin Dashboard')
+@section('title', 'Dashboard')
 
 @section('content')
 <div class="container">
-    <h2 class="mb-4">Admin Dashboard - Case Analytics</h2>
+    <h2 class="mb-4">Dashboard - Case Analytics</h2>
 <!-- Stats Cards -->
     <div class="row g-4 mb-4">
         <div class="col-md-3">
