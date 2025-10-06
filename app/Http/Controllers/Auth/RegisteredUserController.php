@@ -41,14 +41,12 @@ class RegisteredUserController extends Controller
                     ->letters()   // ensure letters
                     ->numbers(),  // ensure numbers
             ],
-            'role' => ['required', 'in:agent,user,admin,medical'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
         ]);
 
         event(new Registered($user));

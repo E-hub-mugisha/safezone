@@ -170,15 +170,15 @@
                     <!-- Left Content -->
                     <div class="col-lg-6">
                         <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
-                            <div class="company-badge mb-4">
-                                <i class="bi bi-shield-lock-fill me-2"></i>
-                                Safe, Confidential & Timely GBV Reporting
-                            </div>
-
                             <h1 class="mb-4">
-                                Report. Track. <br>
-                                Get Support. <br>
-                                <span class="accent-text">SafeZone Rwanda</span>
+                                <span class="accent-text">SafeZone Rwanda</span>                             
+                            </h1>
+                            <h2 class="mb-4">
+                                Rwanda Investigation Bureau (RIB)                               
+                            </h2>
+                            <h1 class="mb-4">
+                               Report. Track. <br>
+                                Get Support.                                
                             </h1>
 
                             <p class="mb-4 mb-md-5">
@@ -189,11 +189,10 @@
 
                             <div class="hero-buttons">
                                 <a href="{{ route('login') }}" class="btn btn-primary me-0 me-sm-2 mx-1">
-                                    Login as admin or agent
+                                    Login
                                 </a>
-                                <a href="{{ route('login') }}" class="btn btn-outline-primary mt-2 mt-sm-0">
-                                    <i class="bi bi-search me-1"></i>
-                                    Login as user
+                                <a href="{{ route('register') }}" class="btn btn-outline-primary mt-2 mt-sm-0">
+                                    Register Account
                                 </a>
                             </div>
                         </div>

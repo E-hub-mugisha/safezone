@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Case Management</h2>
+        <h2>Complains Cases</h2>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCaseModal">
             Add New Case
         </button>
@@ -89,11 +89,13 @@
                                                 Verify
                                             </button>
                                         </li>
+                                        @if(Auth::user()->role === 'admin')
                                         <li>
                                             <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#assignModal{{ $case->id }}">
                                                 Assign
                                             </button>
                                         </li>
+                                        @endif
                                         <li>
                                             <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $case->id }}">
                                                 Delete
@@ -179,7 +181,7 @@
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label>RIB Agent:</label>
-                                                <select name="agent_id" class="form-select" required>
+                                                <select name="agent_id" class="form-select">
                                                     <option value="">Select Agent</option>
                                                     @foreach($agents as $agent)
                                                     <option value="{{ $agent->id }}" {{ $case->agent_id == $agent->id ? 'selected' : '' }}>{{ $agent->name }}</option>
@@ -267,7 +269,7 @@
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addCaseModalLabel">Add New GBV Case</h5>
+                        <h5 class="modal-title" id="addCaseModalLabel">Add New complains Case</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">

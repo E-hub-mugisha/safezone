@@ -46,23 +46,23 @@
                                             class="nk-menu-text">User Management</span></a></li>
                                 <li class="nk-menu-item"><a href="{{ route('safe-zone-cases.index') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-growth"></em></span><span
-                                            class="nk-menu-text">Cases Report</span></a></li>
+                                            class="nk-menu-text">View Complains Cases</span></a></li>
                                 <li class="nk-menu-item"><a href="{{ route('evidences.index') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-coins"></em></span><span
                                             class="nk-menu-text">Evidences</span></a>
                                 </li>
                                 <li class="nk-menu-item"><a href="{{ route('reporters.list') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span><span
-                                            class="nk-menu-text">Reporters</span></a>
+                                            class="nk-menu-text">View Reporters Lists</span></a>
                                 </li>
                                 <li class="nk-menu-item"><a href="{{ route('medical-staff.index') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span
-                                            class="nk-menu-text">Medical Staff</span></a>
+                                            class="nk-menu-text">View Medical Staff</span></a>
 
                                 </li>
                                 <li class="nk-menu-item"><a href="{{ route('agents.list') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-user-list"></em></span><span
-                                            class="nk-menu-text">Agents</span></a>
+                                            class="nk-menu-text">View RIB Agents</span></a>
 
                                 </li>
 
@@ -73,36 +73,36 @@
                                             class="nk-menu-text">Default Dashboard</span></a></li>
                                 <li class="nk-menu-item"><a href="{{ route('safe-zone-cases.index') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-growth"></em></span><span
-                                            class="nk-menu-text">Cases Report</span></a></li>
+                                            class="nk-menu-text">View Complains Cases</span></a></li>
                                 <li class="nk-menu-item"><a href="{{ route('evidences.index') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-coins"></em></span><span
                                             class="nk-menu-text">Evidences</span></a>
                                 </li>
                                 <li class="nk-menu-item"><a href="{{ route('reporters.list') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span><span
-                                            class="nk-menu-text">Reporters</span></a>
+                                            class="nk-menu-text">View Reporters Lists</span></a>
                                 </li>
                                 <li class="nk-menu-item"><a href="{{ route('medical-staff.index') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span
-                                            class="nk-menu-text">Medical Staff</span></a>
+                                            class="nk-menu-text">View Medical Staff</span></a>
 
                                 </li>
 
                                 {{-- Medical Staff --}}
-                                @elseif(Auth::user()->role === 'medical_staff')
+                                @elseif(Auth::user()->role === 'medical')
                                 <li class="nk-menu-item"><a href="{{ route('dashboard') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-dashlite"></em></span><span
                                             class="nk-menu-text">Default Dashboard</span></a></li>
                                 <li class="nk-menu-item"><a href="{{ route('safe-zone-cases.index') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-growth"></em></span><span
-                                            class="nk-menu-text">Cases Report</span></a></li>
+                                            class="nk-menu-text">View Complains Cases</span></a></li>
                                 <li class="nk-menu-item"><a href="{{ route('evidences.index') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-coins"></em></span><span
                                             class="nk-menu-text">Evidences</span></a>
                                 </li>
                                 <li class="nk-menu-item"><a href="{{ route('reporters.list') }}" class="nk-menu-link"><span
                                             class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span><span
-                                            class="nk-menu-text">Reporters</span></a>
+                                            class="nk-menu-text">View Reporter lists</span></a>
                                 </li>
                                 {{-- Survivor/User --}}
                                 @elseif(Auth::user()->role === 'user')

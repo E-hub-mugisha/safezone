@@ -43,19 +43,6 @@
                         @enderror
                     </div>
 
-                    <!-- Role Selection -->
-                        <div class="mb-3">
-                            <label for="role">Select Role</label>
-                            <div class="input-group">
-                                <select name="role" id="role" class="form-control form-control-lg border-left-0" required>
-                                    <option value="" disabled selected>-- Choose Role --</option>
-                                    <option value="agent">Agent</option>
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="medical">Medical</option>
-                                </select>
-                            </div>
-                        </div>
                     <!-- Password -->
                     <div class="mb-3">
                         <label for="password" class="form-label">{{ __('Password') }}</label>
