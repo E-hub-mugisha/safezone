@@ -25,6 +25,11 @@
                         </a>
                     </li>
                     <li>
+                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateStatusModal{{ $case->id }}">
+                            Update Case
+                        </button>
+                    </li>
+                    <li>
                         <button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#verifyModal{{ $case->id }}">
                             <i class="bi bi-check2-circle"></i> Verify
                         </button>
@@ -292,5 +297,36 @@
         </div>
     </div>
 
+    <!-- update status -->
+    <div class="modal fade" id="updateStatusModal{{ $case->id }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('safe-zone-cases.update',$case->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="update_status" value="1">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update Case Status</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Select New Status</label>
+                            <select name="status" id="status" class="form-select" required>
+                                <option value="pending" {{ $case->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="verified" {{ $case->status == 'verified' ? 'selected' : '' }}>Verified</option>
+                                <option value="in_progress" {{ $case->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                <option value="resolved" {{ $case->status == 'resolved' ? 'selected' : '' }}>Resolved</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Status</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

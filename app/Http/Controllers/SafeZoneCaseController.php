@@ -262,7 +262,7 @@ class SafeZoneCaseController extends Controller
                 'file_path' => $path,
             ]);
 
-            // ✅ Tracking log for this uploaded file
+            //  Tracking log for this uploaded file
             TrackingLogService::log(
                 $case->id,
                 auth()->id(),

@@ -28,11 +28,11 @@
                     <a href="mailto:{{ $reporter->email }}" class="btn btn-sm btn-primary" title="Email">
                         Email
                     </a>
-                    @if(Auth::user()->role === 'admin')
+                    <!-- @if(Auth::user()->role === 'admin')
                     <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteStaffModal{{ $reporter->id }}" title="Delete">
                         Delete
                     </button>
-                    @endif
+                    @endif -->
                 </td>
             </tr>
             @empty

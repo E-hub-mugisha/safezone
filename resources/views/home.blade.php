@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Home - SafeZone</title>
+    <title>Home - SafeZone Rwanda</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -188,12 +188,12 @@
                             </p>
 
                             <div class="hero-buttons">
-                                <a href="#reportCase" data-bs-toggle="modal" data-bs-target="#reportCaseModal" class="btn btn-primary me-0 me-sm-2 mx-1">
-                                    Report a Case
+                                <a href="{{ route('login') }}" class="btn btn-primary me-0 me-sm-2 mx-1">
+                                    Login as admin or agent
                                 </a>
-                                <a href="#trackCase" data-bs-toggle="modal" data-bs-target="#trackCaseModal" class="btn btn-outline-primary mt-2 mt-sm-0">
+                                <a href="{{ route('login') }}" class="btn btn-outline-primary mt-2 mt-sm-0">
                                     <i class="bi bi-search me-1"></i>
-                                    Track Your Case
+                                    Login as user
                                 </a>
                             </div>
                         </div>

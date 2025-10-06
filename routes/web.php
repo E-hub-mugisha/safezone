@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     // View all cases (Agent only)
     Route::get('/safe-zone-cases', function () {
         if (Auth::user()->role == 'user') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->index();
     })->name('safe-zone-cases.index');
@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     // Show specific case (Agent & Admin)
     Route::get('/safe-zone-cases/{id}', function ($id) {
         if (!in_array(Auth::user()->role, ['agent', 'admin'])) {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->show($id);
     })->name('safe-zone-cases.show');
@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
     // Create new case (Reporter only)
     Route::post('/safe-zone-cases', function () {
         if (Auth::user()->role !== 'user') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->storeCase(request());
     })->name('safe-zone-cases.store');
@@ -63,15 +63,15 @@ Route::middleware('auth')->group(function () {
     // update specific case (Agent & Admin)
     Route::put('/safe-zone-cases/{id}', function ($id) {
         if (!in_array(Auth::user()->role, ['agent', 'admin'])) {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->update(request(), $id);
     })->name('safe-zone-cases.update');
 
     // Assign case (Admin only)
     Route::post('/safe-zone-cases/{id}/assign', function ($id) {
-        if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized.');
+        if (!Auth::user()->role !== 'admin') {
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->assignCase(request(), $id);
     })->name('cases.assign');
@@ -79,7 +79,7 @@ Route::middleware('auth')->group(function () {
     // Verify case (Admin only)
     Route::post('/safe-zone-cases/{id}/verify', function ($id) {
         if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->verifyCase($id);
     })->name('cases.verify');
@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
     // Delete case (Admin only)
     Route::delete('/safe-zone-cases/{id}', function ($id) {
         if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->destroy($id);
     })->name('safe-zone-cases.destroy');
@@ -101,7 +101,7 @@ Route::middleware('auth')->group(function () {
     // View evidences (Agent only)
     Route::get('/safe-zone-cases/{id}/evidences', function ($id) {
         if (!in_array(Auth::user()->role, ['reporter', 'agent','admin','medical'])) {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->showEvidence($id);
     })->name('safe-zone-cases.showEvidence');
@@ -109,7 +109,7 @@ Route::middleware('auth')->group(function () {
     // Add evidence (Reporter or Agent)
     Route::post('/safe-zone-cases/{id}/evidences', function ($id) {
         if (!in_array(Auth::user()->role, ['reporter', 'agent','admin','medical'])) {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->addEvidence(request(), $id);
     })->name('safe-zone-cases.addEvidence');
@@ -121,7 +121,7 @@ Route::middleware('auth')->group(function () {
      */
     Route::post('/safe-zone-cases/{case}/notes', function ($case) {
         if (!in_array(Auth::user()->role, ['agent', 'admin'])) {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(SafeZoneCaseController::class)->storeNote(request(), $case);
     })->name('cases.notes.store');
@@ -133,7 +133,7 @@ Route::middleware('auth')->group(function () {
      */
     Route::post('/cases/{case}/medical-reports', function ($case) {
         if (Auth::user()->role !== 'medical') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(MedicalReportController::class)->store(request(), $case);
     })->name('medical-reports.store');
@@ -147,7 +147,7 @@ Route::middleware('auth')->group(function () {
     // List users (Admin only)
     Route::get('/users', function () {
         if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(ProfileController::class)->indexUser();
     })->name('users.index');
@@ -155,7 +155,7 @@ Route::middleware('auth')->group(function () {
     // Create user (Admin only)
     Route::post('/users', function () {
         if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(ProfileController::class)->storeUser(request());
     })->name('users.store');
@@ -163,7 +163,7 @@ Route::middleware('auth')->group(function () {
     // Update user (Admin only)
     Route::put('/users/{user}', function ($user) {
         if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(ProfileController::class)->updateUser(request(), $user);
     })->name('users.update');
@@ -171,7 +171,7 @@ Route::middleware('auth')->group(function () {
     // Delete user (Admin only)
     Route::delete('/users/{user}', function ($user) {
         if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(ProfileController::class)->destroyUser($user);
     })->name('users.destroy');
@@ -185,8 +185,8 @@ Route::middleware('auth')->group(function () {
 
 // List all evidences (Admin only)
 Route::get('/evidences', function () {
-    if (Auth::user()->role !== 'admin') {
-        abort(403, 'Unauthorized.');
+    if (Auth::user()->role !== 'admin' && Auth::user()->role !== 'agent' && Auth::user()->role !== 'medical') {
+        redirect()->back()->with('error', 'Unauthorized access.');
     }
     return app(\App\Http\Controllers\EvidenceController::class)->index();
 })->name('evidences.index');
@@ -194,7 +194,7 @@ Route::get('/evidences', function () {
 // Show a single evidence (Admin + Agent + Medical Staff)
 Route::get('/evidences/{evidence}', function ($evidence) {
     if (!in_array(Auth::user()->role, ['admin', 'agent', 'medical'])) {
-        abort(403, 'Unauthorized.');
+        redirect()->back()->with('error', 'Unauthorized access.');
     }
     return app(\App\Http\Controllers\EvidenceController::class)->show($evidence);
 })->name('evidences.show');
@@ -202,7 +202,7 @@ Route::get('/evidences/{evidence}', function ($evidence) {
 // Create evidence (Admin + Agent + Medical Staff)
 Route::post('/evidences', function () {
     if (!in_array(Auth::user()->role, ['admin', 'agent', 'medical'])) {
-        abort(403, 'Unauthorized.');
+        redirect()->back()->with('error', 'Unauthorized access.');
     }
     return app(\App\Http\Controllers\EvidenceController::class)->store(request());
 })->name('evidences.store');
@@ -210,7 +210,7 @@ Route::post('/evidences', function () {
 // Update evidence (Admin only)
 Route::put('/evidences/{evidence}', function ($evidence) {
     if (Auth::user()->role == 'user') {
-        abort(403, 'Unauthorized.');
+        redirect()->back()->with('error', 'Unauthorized access.');
     }
     return app(\App\Http\Controllers\EvidenceController::class)->update(request(), $evidence);
 })->name('evidences.update');
@@ -218,7 +218,7 @@ Route::put('/evidences/{evidence}', function ($evidence) {
 // Delete evidence (Admin only)
 Route::delete('/evidences/{evidence}', function ($evidence) {
     if (Auth::user()->role !== 'admin') {
-        abort(403, 'Unauthorized.');
+        redirect()->back()->with('error', 'Unauthorized access.');
     }
     return app(\App\Http\Controllers\EvidenceController::class)->destroy($evidence);
 })->name('evidences.destroy');
@@ -228,7 +228,7 @@ Route::get('/medical-staff', [\App\Http\Controllers\ProfileController::class, 'm
 Route::get('/reporters', [\App\Http\Controllers\ProfileController::class, 'listReporter'])->name('reporters.list');
 Route::delete('/reporters/{email}', function ($email) {
         if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized.');
+            redirect()->back()->with('error', 'Unauthorized access.');
         }
         return app(ProfileController::class)->destroyReporter($email);
     })->name('reporters.destroy');
